@@ -28,9 +28,9 @@ public class PlayerMovement : MonoBehaviour
         //on terrain hit get that positon
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-
         if (Physics.Raycast(ray, out hit, 1000)) {
-            targetPosition = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+            //fix y to the players position so it can't walk "up"
+            targetPosition = new Vector3(hit.point.x, transform.position.y, hit.point.z);
         }
     }
 
@@ -41,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void rotatePlayer() {
-        //rotate player into the 
+        //rotate player into the target location
         Quaternion playerRotation = Quaternion.LookRotation(targetPosition-transform.position);
         playerRotation.x = 0f;
         playerRotation.z = 0f;
