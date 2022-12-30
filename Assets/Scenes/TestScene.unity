@@ -1647,6 +1647,7 @@ GameObject:
   - component: {fileID: 1795492004}
   - component: {fileID: 1795492003}
   - component: {fileID: 1795492002}
+  - component: {fileID: 1795492007}
   m_Layer: 0
   m_Name: EnemyCube
   m_TagString: Untagged
@@ -1684,7 +1685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4909c526317544248a7019a80ab1feb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 2
+  movementSpeed: 1
   playerTransform: {fileID: 1248046831}
 --- !u!23 &1795492004
 MeshRenderer:
@@ -1752,6 +1753,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1795492007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795492001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0de33d5549824c8fad390a4c7fb2fb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1937196573
 GameObject:
   m_ObjectHideFlags: 0

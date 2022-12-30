@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    public Transform attackpoint;
+    public float attackRange = 0.5f;
+    public int attackDamage = 20;
+    public LayerMask enemyLayers;
     private Animator animator;
     // Start is called before the first frame update
     void Start()
@@ -19,11 +23,25 @@ public class PlayerAttack : MonoBehaviour
             useBasicAttack();
         }
         else {
-            animator.SetBool("isPlayerAttacking", false);
+            //animator.SetBool("isPlayerAttacking", false);
         }
     }
 
     void useBasicAttack() {
-        animator.SetBool("isPlayerAttacking", true);
+        //play attack animation
+        animator.SetTrigger("BasicAttack");
+        //detect enemies hit
+        Collider[] hitEnemies = Physics.OverlapSphere(attackpoint.position,attackRange,enemyLayers);
+        foreach (Collider enemy in hitEnemies) {
+            //deal damage to enemies hit
+            Debug.Log("We hit enemy " + enemy.name);
+            enemy.GetComponent<EnemyInteraction>().takeDamage(attackDamage);
+        }
+    }
+
+    void OnDrawGizmosSelected() {
+        if (attackpoint == null)
+            return;
+        Gizmos.DrawSphere(attackpoint.position, attackRange);
     }
 }
