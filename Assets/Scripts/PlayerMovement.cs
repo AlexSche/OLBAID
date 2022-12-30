@@ -7,9 +7,12 @@ public class PlayerMovement : MonoBehaviour
     public float movementSpeed;
     public CharacterController characterController;
     private Vector3 targetPosition;
+    private Animator animator;
+    private PlayerAttack playerAttack;
     void Start()
     {
-        
+        animator = GetComponent<Animator>();
+        playerAttack = GetComponent<PlayerAttack>();
     }
 
     // Update is called once per frame
@@ -19,6 +22,13 @@ public class PlayerMovement : MonoBehaviour
         {
             locateMousePositionOnTerrain();
             moveToPosition();
+        }
+        else if (Input.GetKey(KeyCode.Mouse1))
+        {
+            playerAttack.useBasicAttack();
+        }
+        else {
+            animator.SetBool("isWalking", false);
         }
     }
 
@@ -56,8 +66,10 @@ public class PlayerMovement : MonoBehaviour
         // 2 * tolerance must be >= moveSpeed / framerate or the object will jump right over the stop.
         offset = offset.normalized * movementSpeed;
         //normalize it and account for movement speed.
-        characterController.Move(offset * Time.deltaTime);
         //actually move the character.
+        characterController.Move(offset * Time.deltaTime);
+        //play walking animation
+        animator.SetBool("isWalking", true);
         }
     }
 }

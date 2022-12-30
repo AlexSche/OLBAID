@@ -18,16 +18,9 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Mouse1))
-        {
-            useBasicAttack();
-        }
-        else {
-            //animator.SetBool("isPlayerAttacking", false);
-        }
     }
 
-    void useBasicAttack() {
+    public void useBasicAttack() {
         //play attack animation
         animator.SetTrigger("BasicAttack");
         //detect enemies hit
