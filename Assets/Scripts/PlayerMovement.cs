@@ -27,6 +27,9 @@ public class PlayerMovement : MonoBehaviour
         {
             playerAttack.useBasicAttack();
         }
+        else if (Input.GetKey(KeyCode.Alpha1)) {
+            playerAttack.useWhipWhirl();
+        }
         else {
             animator.SetBool("isWalking", false);
         }
