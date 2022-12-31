@@ -7,9 +7,12 @@ public class PlayerMovement : MonoBehaviour
     public float movementSpeed;
     public CharacterController characterController;
     private Vector3 targetPosition;
+    private Animator animator;
+    private PlayerAttack playerAttack;
     void Start()
     {
-        
+        animator = GetComponent<Animator>();
+        playerAttack = GetComponent<PlayerAttack>();
     }
 
     // Update is called once per frame
@@ -18,8 +21,15 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.Mouse0))
         {
             locateMousePositionOnTerrain();
-            moveToPosition();
         }
+        else if (Input.GetKey(KeyCode.Mouse1))
+        {
+            playerAttack.useBasicAttack();
+        }
+        else if (Input.GetKey(KeyCode.Alpha1)) {
+            playerAttack.useWhipWhirl();
+        }
+        moveToPosition();
     }
 
     void locateMousePositionOnTerrain()
@@ -29,14 +39,17 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, 1000)) {
+            Debug.Log(hit.collider.tag);
+            if (hit.collider.tag == "Floor") {
             //fix y to the players position so it can't walk "up"
             targetPosition = new Vector3(hit.point.x, transform.position.y, hit.point.z);
+            }
         }
     }
 
     void moveToPosition() 
     {
-        rotatePlayer();
+        //rotatePlayer();
         movePlayerTowardsPosition();
     }
 
@@ -49,15 +62,20 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void movePlayerTowardsPosition() {
-        var offset = targetPosition - transform.position;
-        if (offset.magnitude > .1f) {
-        //If we're further away than .1 unit, move towards the target.
+        Vector3 offset = targetPosition - transform.position;
+        if (offset.magnitude > 0.7f) {
+        rotatePlayer();
+        //If we're further away than .7 unit, move towards the target.
         //The minimum allowable tolerance varies with the speed of the object and the framerate. 
         // 2 * tolerance must be >= moveSpeed / framerate or the object will jump right over the stop.
-        offset = offset.normalized * movementSpeed;
+        offset = offset.normalized * movementSpeed * Time.smoothDeltaTime;
         //normalize it and account for movement speed.
-        characterController.Move(offset * Time.deltaTime);
         //actually move the character.
+        characterController.Move(offset);
+        //play walking animation
+        animator.SetBool("isWalking", true);
+        } else {
+            animator.SetBool("isWalking", false);
         }
     }
 }
