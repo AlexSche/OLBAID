@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
 
     void moveToPosition() 
     {
-        rotatePlayer();
+        //rotatePlayer();
         movePlayerTowardsPosition();
     }
 
@@ -63,8 +63,9 @@ public class PlayerMovement : MonoBehaviour
 
     void movePlayerTowardsPosition() {
         Vector3 offset = targetPosition - transform.position;
-        if (offset.magnitude > .1f) {
-        //If we're further away than .1 unit, move towards the target.
+        if (offset.magnitude > 0.7f) {
+        rotatePlayer();
+        //If we're further away than .7 unit, move towards the target.
         //The minimum allowable tolerance varies with the speed of the object and the framerate. 
         // 2 * tolerance must be >= moveSpeed / framerate or the object will jump right over the stop.
         offset = offset.normalized * movementSpeed * Time.smoothDeltaTime;
