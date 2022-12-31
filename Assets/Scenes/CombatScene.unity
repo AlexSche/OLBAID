@@ -842,7 +842,7 @@ GameObject:
   - component: {fileID: 968575320}
   m_Layer: 0
   m_Name: Floor
-  m_TagString: Untagged
+  m_TagString: Floor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1198,7 +1198,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2541fe28936f4252ba6a416093ee3cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
+  movementSpeed: 50
   characterController: {fileID: 1964356523}
 --- !u!4 &2038582653 stripped
 Transform:
