@@ -12,12 +12,14 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 targetPosition;
     private Animator animator;
     private PlayerAttack playerAttack;
+    private Rigidbody2D rb2D;
 
     private void Awake() => mouseInput = new MouseInput();
     private void OnEnable() => mouseInput.Enable();
     private void OnDisable() => mouseInput.Disable();
     void Start()
     {        
+        rb2D = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         playerAttack = GetComponent<PlayerAttack>();
         targetPosition = transform.position;
@@ -67,8 +69,12 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void movePlayerTowardsPosition() {
-        if (Vector3.Distance(transform.position, targetPosition) > 0.1f) {
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, movementSpeed * Time.smoothDeltaTime);
+        if (Vector3.Distance(transform.position, targetPosition) > 0.1f) 
+        {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        direction = Vector2.ClampMagnitude(direction, 1);
+        Vector2 newPos = transform.position + direction * movementSpeed * Time.fixedDeltaTime;
+        rb2D.MovePosition(newPos);
         //play walking animation
         animator.SetBool("isWalking", true);
         } else {
