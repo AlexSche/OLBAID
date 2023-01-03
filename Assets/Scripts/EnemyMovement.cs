@@ -7,17 +7,19 @@ public class EnemyMovement : MonoBehaviour
     public float movementSpeed;
     public Transform playerTransform;
     private CharacterController characterController;
+    private Rigidbody2D rb2D;
 
     // Start is called before the first frame update
     void Start()
     {
+        rb2D = GetComponent<Rigidbody2D>();
         characterController = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        rotateEnemy();
+        //rotateEnemy();
         moveEnemyToPlayer();
     }
     void rotateEnemy() {
@@ -29,15 +31,13 @@ public class EnemyMovement : MonoBehaviour
     }
 
     void moveEnemyToPlayer() {
-        Vector3 offset = playerTransform.position - transform.position;
-        if (offset.magnitude > .1f) {
-        //If we're further away than .1 unit, move towards the target.
-        //The minimum allowable tolerance varies with the speed of the object and the framerate. 
-        // 2 * tolerance must be >= moveSpeed / framerate or the object will jump right over the stop.
-        offset = offset.normalized * movementSpeed;
-        //normalize it and account for movement speed.
-        characterController.Move(offset * Time.deltaTime);
-        //actually move the character.
+        if (Vector3.Distance(transform.position, playerTransform.position) > 0.75f) 
+        {
+        Vector3 direction = (playerTransform.position - transform.position).normalized;
+        direction = Vector2.ClampMagnitude(direction, 1);
+        Vector2 newPos = transform.position + direction * movementSpeed * Time.fixedDeltaTime;
+        rb2D.MovePosition(newPos);
+        //play walking animation
         }
     }
 }
