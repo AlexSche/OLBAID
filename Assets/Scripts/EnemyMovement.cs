@@ -41,7 +41,7 @@ public class EnemyMovement : MonoBehaviour
     }
 
     void moveEnemyToPlayer() {
-        if (Vector3.Distance(transform.position, playerTransform.position) > 0.75f) 
+        if (Vector3.Distance(transform.position, playerTransform.position) > 0.5f) 
         {
         Vector3 direction = (playerTransform.position - transform.position).normalized;
         direction = Vector2.ClampMagnitude(direction, 1);
@@ -50,6 +50,7 @@ public class EnemyMovement : MonoBehaviour
         //play walking animation
         animator.SetBool("isWalking", true);
         } else {
+            Debug.DrawLine(transform.position, playerTransform.position, Color.green, 4);
             animator.SetBool("isWalking", false);
         }
     }
