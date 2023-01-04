@@ -34,7 +34,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void useWhipWhirl() {
         animator.SetTrigger("WhirlAttack");
-                Collider[] hitEnemies = Physics.OverlapSphere(attackpoint.position,attackRange,enemyLayers);
+        Collider[] hitEnemies = Physics.OverlapSphere(attackpoint.position,attackRange,enemyLayers);
         foreach (Collider enemy in hitEnemies) {
             //deal damage to enemies hit
             Debug.Log("We hit enemy " + enemy.name);

@@ -5,6 +5,10 @@ using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
     public float movementSpeed;
+    public float attackRange;
+    public int attackDamage;
+    public Transform attackPoint;
+    public LayerMask playerMask;
     public Transform playerTransform;
     private CharacterController characterController;
     private Rigidbody2D rb2D;
@@ -23,6 +27,7 @@ public class EnemyMovement : MonoBehaviour
     {
         rotateEnemy();
         moveEnemyToPlayer();
+        attackPlayer();
     }
     void rotateEnemy() {
         SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
@@ -53,5 +58,24 @@ public class EnemyMovement : MonoBehaviour
             Debug.DrawLine(transform.position, playerTransform.position, Color.green, 4);
             animator.SetBool("isWalking", false);
         }
+    }
+
+    void attackPlayer() {
+        if (Vector3.Distance(transform.position, playerTransform.position) <= 0.5f) 
+        {
+            animator.SetTrigger("Attack");
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position,attackRange,playerMask);
+            foreach (Collider2D enemy in hitEnemies) {
+                if (enemy.name == "X Bot") {
+                    Debug.Log("Deal damage to X Bot!");
+                }
+        }
+        }
+    }
+
+    void OnDrawGizmosSelected() {
+        if (attackPoint == null)
+            return;
+        //Gizmos.DrawSphere(attackPoint.position, attackRange);
     }
 }
