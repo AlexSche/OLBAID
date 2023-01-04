@@ -21,15 +21,23 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //rotateEnemy();
+        rotateEnemy();
         moveEnemyToPlayer();
     }
     void rotateEnemy() {
-        //rotate player into the target location
-        Quaternion enemyRotation = Quaternion.LookRotation(playerTransform.position-transform.position);
-        enemyRotation.x = 0f;
-        enemyRotation.z = 0f;
-        transform.rotation = Quaternion.Slerp(transform.rotation, enemyRotation, Time.deltaTime * 10);
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        Vector2 direction = playerTransform.position - transform.position;
+        Vector3 topFromPlayer = new Vector3(transform.position.x, transform.position.y + 1,transform.position.z);
+        Vector2 rightDirection = topFromPlayer - transform.position;
+        float angle = Vector2.Angle(rightDirection, direction);
+        if (playerTransform.position.x < transform.position.x) {
+            angle *= -1;
+        }
+        if (angle < 0) {
+            spriteRenderer.flipX = true;
+        } else {
+            spriteRenderer.flipX = false;
+        }
     }
 
     void moveEnemyToPlayer() {
