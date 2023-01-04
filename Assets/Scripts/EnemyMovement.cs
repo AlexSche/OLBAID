@@ -7,11 +7,15 @@ public class EnemyMovement : MonoBehaviour
     public float movementSpeed;
     public Transform playerTransform;
     private CharacterController characterController;
+    private Rigidbody2D rb2D;
+    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
+        rb2D = GetComponent<Rigidbody2D>();
         characterController = GetComponent<CharacterController>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -21,23 +25,32 @@ public class EnemyMovement : MonoBehaviour
         moveEnemyToPlayer();
     }
     void rotateEnemy() {
-        //rotate player into the target location
-        Quaternion enemyRotation = Quaternion.LookRotation(playerTransform.position-transform.position);
-        enemyRotation.x = 0f;
-        enemyRotation.z = 0f;
-        transform.rotation = Quaternion.Slerp(transform.rotation, enemyRotation, Time.deltaTime * 10);
+        SpriteRenderer spriteRenderer = GetComponent<SpriteRenderer>();
+        Vector2 direction = playerTransform.position - transform.position;
+        Vector3 topFromPlayer = new Vector3(transform.position.x, transform.position.y + 1,transform.position.z);
+        Vector2 rightDirection = topFromPlayer - transform.position;
+        float angle = Vector2.Angle(rightDirection, direction);
+        if (playerTransform.position.x < transform.position.x) {
+            angle *= -1;
+        }
+        if (angle < 0) {
+            spriteRenderer.flipX = true;
+        } else {
+            spriteRenderer.flipX = false;
+        }
     }
 
     void moveEnemyToPlayer() {
-        Vector3 offset = playerTransform.position - transform.position;
-        if (offset.magnitude > .1f) {
-        //If we're further away than .1 unit, move towards the target.
-        //The minimum allowable tolerance varies with the speed of the object and the framerate. 
-        // 2 * tolerance must be >= moveSpeed / framerate or the object will jump right over the stop.
-        offset = offset.normalized * movementSpeed;
-        //normalize it and account for movement speed.
-        characterController.Move(offset * Time.deltaTime);
-        //actually move the character.
+        if (Vector3.Distance(transform.position, playerTransform.position) > 0.75f) 
+        {
+        Vector3 direction = (playerTransform.position - transform.position).normalized;
+        direction = Vector2.ClampMagnitude(direction, 1);
+        Vector2 newPos = transform.position + direction * movementSpeed * Time.fixedDeltaTime;
+        rb2D.MovePosition(newPos);
+        //play walking animation
+        animator.SetBool("isWalking", true);
+        } else {
+            animator.SetBool("isWalking", false);
         }
     }
 }
