@@ -14,7 +14,7 @@ public class EnemyInteraction : MonoBehaviour
     {
         maxHealth = 100;
         currentHealth = maxHealth;
-        //animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
         enemyMovement = GetComponent<EnemyMovement>();
     }
 
@@ -30,12 +30,11 @@ public class EnemyInteraction : MonoBehaviour
         if (currentHealth <= 0) {
             die();
             enemyMovement.enabled = false;
-            GetComponent<CharacterController>().enabled = false;
         }
     }
 
     private void die() {
-        animator.SetBool("isDead", true);
+        //animator.SetBool("isDead", true);
     }
 
     public void removeEnemy() {

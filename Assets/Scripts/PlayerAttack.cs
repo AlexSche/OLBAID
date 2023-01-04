@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public Transform attackpoint;
+    public Transform attackPoint;
     public float attackRange = 0.5f;
     public int attackDamage = 20;
     public LayerMask enemyLayers;
@@ -24,27 +24,31 @@ public class PlayerAttack : MonoBehaviour
         //play attack animation
         animator.SetTrigger("BasicAttack");
         //detect enemies hit
-        Collider[] hitEnemies = Physics.OverlapSphere(attackpoint.position,attackRange,enemyLayers);
-        foreach (Collider enemy in hitEnemies) {
-            //deal damage to enemies hit
-            Debug.Log("We hit enemy " + enemy.name);
-            enemy.GetComponent<EnemyInteraction>().takeDamage(attackDamage);
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position,attackRange,enemyLayers);
+            foreach (Collider2D enemy in hitEnemies) {
+                if (enemy.name == "EnemyImp") {
+                    Debug.Log("We hit enemy " + enemy.name);
+                    enemy.GetComponent<EnemyInteraction>().takeDamage(attackDamage);
+                }
         }
     }
 
     public void useWhipWhirl() {
         animator.SetTrigger("WhirlAttack");
-                Collider[] hitEnemies = Physics.OverlapSphere(attackpoint.position,attackRange,enemyLayers);
-        foreach (Collider enemy in hitEnemies) {
-            //deal damage to enemies hit
-            Debug.Log("We hit enemy " + enemy.name);
-            enemy.GetComponent<EnemyInteraction>().takeDamage(attackDamage);
+        //detect enemies hit
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position,attackRange,enemyLayers);
+            foreach (Collider2D enemy in hitEnemies) {
+                if (enemy.name == "EnemyImp") {
+                    Debug.Log("We hit enemy " + enemy.name);
+                    enemy.GetComponent<EnemyInteraction>().takeDamage(attackDamage);
+                }
         }
     }
-
+    /*
     void OnDrawGizmosSelected() {
-        if (attackpoint == null)
+        if (attackPoint == null)
             return;
-        Gizmos.DrawSphere(attackpoint.position, attackRange);
+        Gizmos.DrawSphere(attackPoint.position, attackRange);
     }
+    */
 }
