@@ -64,18 +64,16 @@ public class EnemyMovement : MonoBehaviour
         if (Vector3.Distance(transform.position, playerTransform.position) <= 0.5f) 
         {
             animator.SetTrigger("Attack");
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position,attackRange,playerMask);
-            foreach (Collider2D enemy in hitEnemies) {
-                if (enemy.name == "X Bot") {
-                    Debug.Log("Deal damage to X Bot!");
-                }
-        }
         }
     }
 
-    void OnDrawGizmosSelected() {
-        if (attackPoint == null)
-            return;
-        //Gizmos.DrawSphere(attackPoint.position, attackRange);
+    void dealDamageToPlayer() {
+        Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position,attackRange,playerMask);
+            foreach (Collider2D enemy in hitEnemies) {
+                if (enemy.name == "X Bot") {
+                    Debug.Log("Deal damage to X Bot!");
+                    enemy.GetComponent<PlayerAttributes>().takeDamage(attackDamage);
+                }
+        }
     }
 }
