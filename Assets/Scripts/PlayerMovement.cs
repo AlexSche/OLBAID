@@ -68,15 +68,6 @@ public class PlayerMovement : MonoBehaviour
             flip();
             facingLeft = false;
         }
-        //Vector3 topFromPlayer = new Vector3(transform.position.x, transform.position.y + 1,transform.position.z);
-        //Vector2 rightDirection = topFromPlayer - transform.position;
-        /*
-        float angle = Vector2.Angle(rightDirection, direction);
-        if (targetPosition.x < transform.position.x) {
-            angle *= -1;
-        }
-        transform.rotation = Quaternion.Euler(0,angle,0);
-        */
     }
 
     void flip() {
