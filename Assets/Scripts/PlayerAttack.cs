@@ -22,7 +22,7 @@ public class PlayerAttack : MonoBehaviour
 
     public void useBasicAttack() {
         //play attack animation
-        animator.SetTrigger("BasicAttack");
+        //animator.SetTrigger("BasicAttack");
         //detect enemies hit
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position,attackRange,enemyLayers);
             foreach (Collider2D enemy in hitEnemies) {
@@ -34,7 +34,7 @@ public class PlayerAttack : MonoBehaviour
     }
 
     public void useWhipWhirl() {
-        animator.SetTrigger("WhirlAttack");
+        //animator.SetTrigger("WhirlAttack");
         //detect enemies hit
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPoint.position,attackRange,enemyLayers);
             foreach (Collider2D enemy in hitEnemies) {

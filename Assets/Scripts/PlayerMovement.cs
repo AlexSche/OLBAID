@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private PlayerAttack playerAttack;
     private Rigidbody2D rb2D;
+    private bool facingLeft = false;
 
     private void Awake() => mouseInput = new MouseInput();
     private void OnEnable() => mouseInput.Enable();
@@ -59,16 +60,32 @@ public class PlayerMovement : MonoBehaviour
 
     void rotatePlayer() {
         Vector2 direction = targetPosition - transform.position;
-        Vector3 topFromPlayer = new Vector3(transform.position.x, transform.position.y + 1,transform.position.z);
-        Vector2 rightDirection = topFromPlayer - transform.position;
+        if (direction.x < 0 && !facingLeft) {
+            flip();
+            facingLeft = true;
+        }
+        if (direction.x > 0 && facingLeft) {
+            flip();
+            facingLeft = false;
+        }
+        //Vector3 topFromPlayer = new Vector3(transform.position.x, transform.position.y + 1,transform.position.z);
+        //Vector2 rightDirection = topFromPlayer - transform.position;
+        /*
         float angle = Vector2.Angle(rightDirection, direction);
         if (targetPosition.x < transform.position.x) {
             angle *= -1;
         }
         transform.rotation = Quaternion.Euler(0,angle,0);
+        */
     }
 
+    void flip() {
+        Vector3 currentScale = gameObject.transform.localScale;
+        currentScale.x *= -1;
+        transform.localScale = currentScale;
+    }
     void movePlayerTowardsPosition() {
+        
         if (Vector3.Distance(transform.position, targetPosition) > 0.1f) 
         {
         Vector3 direction = (targetPosition - transform.position).normalized;
